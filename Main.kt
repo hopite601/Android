@@ -2,10 +2,10 @@ import kotlin.math.abs
 
 class PhanSo(var tu: Int, var mau: Int) : Comparable<PhanSo> {
 
-    // In phân số dạng "tu/mau"
+    // In phan so dang "tu/mau"
     fun inPS() = println(this.toString())
 
-    // Tối giản (rút gọn) phân số, giữ mẫu dương
+    // Toi gian (rut gon) phan so, giu mau duong
     fun toiGian(): PhanSo {
         if (mau < 0) { tu = -tu; mau = -mau } // doi dau neu mau am
         val g = gcd(abs(tu), abs(mau)) 
@@ -13,43 +13,43 @@ class PhanSo(var tu: Int, var mau: Int) : Comparable<PhanSo> {
         return this
     }
 
-    // So sánh với phân số khác: -1, 0, 1
+    // So sanh voi phan so khac: -1, 0, 1
     override fun compareTo(other: PhanSo): Int {
-        val left  = tu.toLong() * other.mau.toLong()
+        val left  = tu.toLong() * other.mau.toLong() // nhan cheo len so sanh 2 phan so
         val right = other.tu.toLong() * mau.toLong()
         return left.compareTo(right)
     }
 
-    // Tính tổng với một phân số khác (trả về phân số mới đã tối giản)
+    // Tinh tong voi mot phan so khac (tra ve phan so moi da toi gian)
     operator fun plus(other: PhanSo): PhanSo {
         val num = tu.toLong() * other.mau.toLong() + other.tu.toLong() * mau.toLong()
         val den = mau.toLong() * other.mau.toLong()
-        // Ép về Int (giả sử không tràn trong phạm vi bài tập)
+        // Ep ve Int (gia su khong tran trong pham vi bai tap)
         return PhanSo(num.toInt(), den.toInt()).toiGian()
     }
 
     override fun toString(): String = "$tu/$mau"
 
     companion object {
-        // nhập 1 phân số từ bàn phím, bắt nhập lại nếu tử hoặc mẫu = 0
+        // nhap 1 phan so tu ban phim, bat nhap lai neu tu hoac mau = 0
         fun nhap(): PhanSo {
             while (true) {
                 try {
-                    print("  Nhập tử số (số nguyên, != 0): ")
+                    print("  Nhap tu so (so nguyen, != 0): ")
                     val tu = readln().toInt()
-                    print("  Nhập mẫu số (số nguyên, != 0): ")
+                    print("  Nhap mau so (so nguyen, != 0): ")
                     val mau = readln().toInt()
 
                     if (tu == 0 || mau == 0) {
-                        println("  ➤ Tử số và mẫu số đều phải khác 0. Vui lòng nhập lại!\n")
+                        println("  -> Tu so va mau so deu phai khac 0. Vui long nhap lai!\n")
                         continue
                     }
 
-                    // Chuẩn hoá mẫu dương; không rút gọn ở bước nhập
+                    // Chuan hoa mau duong; khong rut gon o buoc nhap
                     val (ntu, nmau) = if (mau < 0) -tu to -mau else tu to mau
                     return PhanSo(ntu, nmau)
                 } catch (e: NumberFormatException) {
-                    println("  ➤ Vui lòng nhập số nguyên hợp lệ!\n")
+                    println("  -> Vui long nhap so nguyen hop le!\n")
                 }
             }
         }
@@ -63,54 +63,54 @@ class PhanSo(var tu: Int, var mau: Int) : Comparable<PhanSo> {
 }
 
 fun main() {
-    // 1) Nhập mảng phân số
+    // 1) Nhap mang phan so
     val n = nhapSoLuong()
     val arr = MutableList(n) { idx ->
-        println("Nhập phân số thứ ${idx + 1}:")
+        println("Nhap phan so thu ${idx + 1}:")
         PhanSo.nhap()
     }
 
-    // 2) In ra mảng vừa nhập
-    println("\n==> MẢNG PHÂN SỐ VỪA NHẬP:")
+    // 2) In ra mang vua nhap
+    println("\n==> MANG PHAN SO VUA NHAP:")
     inMang(arr)
 
-    // 3) Tối giản từng phần tử và in kết quả
+    // 3) Toi gian tung phan tu va in ket qua
     val arrToiGian = arr.map { PhanSo(it.tu, it.mau).toiGian() }
-    println("\n==> MẢNG SAU KHI TỐI GIẢN:")
+    println("\n==> MANG SAU KHI TOI GIAN:")
     inMang(arrToiGian)
 
-    // 4) Tính tổng các phân số và in kết quả
+    // 4) Tinh tong cac phan so va in ket qua
     var tong = PhanSo(0, 1)
     for (ps in arr) tong += ps
-    println("\n==> TỔNG CÁC PHÂN SỐ (đã tối giản):")
+    println("\n==> TONG CAC PHAN SO (da toi gian):")
     tong.inPS()
 
-    // 5) Tìm phân số có giá trị lớn nhất và in kết quả
+    // 5) Tim phan so co gia tri lon nhat va in ket qua
     val maxPS = arr.maxOrNull()
-    println("\n==> PHÂN SỐ LỚN NHẤT (theo giá trị):")
+    println("\n==> PHAN SO LON NHAT (theo gia tri):")
     maxPS?.toiGian()?.inPS()
 
-    // 6) Sắp xếp mảng theo thứ tự giảm dần và in ra kết quả
+    // 6) Sap xep mang theo thu tu giam dan va in ra ket qua
     val arrGiamDan = arr.map { PhanSo(it.tu, it.mau).toiGian() }.sortedDescending()
-    println("\n==> MẢNG SẮP XẾP GIẢM DẦN (đã tối giản):")
+    println("\n==> MANG SAP XEP GIAM DAN (da toi gian):")
     inMang(arrGiamDan)
 }
 
-// ====== Các hàm tiện ích I/O ======
+// ====== Cac ham tien ich I/O ======
 fun nhapSoLuong(): Int {
     while (true) {
         try {
-            print("Nhập số lượng phân số n (> 0): ")
+            print("Nhap so luong phan so n (> 0): ")
             val n = readln().toInt()
             if (n > 0) return n
-            println("  ➤ n phải > 0. Vui lòng nhập lại!\n")
+            println("  -> n phai > 0. Vui long nhap lai!\n")
         } catch (e: NumberFormatException) {
-            println("  ➤ Vui lòng nhập số nguyên hợp lệ!\n")
+            println("  -> Vui long nhap so nguyen hop le!\n")
         }
     }
 }
 
 fun inMang(list: List<PhanSo>) {
-    if (list.isEmpty()) { println("(mảng rỗng)"); return }
+    if (list.isEmpty()) { println("(mang rong)"); return }
     list.forEachIndexed { i, ps -> println("  [$i] $ps") }
 }
