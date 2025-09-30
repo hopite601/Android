@@ -2,16 +2,6 @@ import kotlin.math.abs
 
 class PhanSo(var tu: Int, var mau: Int) : Comparable<PhanSo> {
 
-    // In phan so dang "tu/mau"
-    fun inPS() = println(this.toString())
-
-    // Toi gian (rut gon) phan so, giu mau duong
-    fun toiGian(): PhanSo {
-        if (mau < 0) { tu = -tu; mau = -mau } // doi dau neu mau am
-        val g = gcd(abs(tu), abs(mau)) 
-        if (g != 0) { tu /= g; mau /= g }
-        return this
-    }
 
     // So sanh voi phan so khac: -1, 0, 1
     override fun compareTo(other: PhanSo): Int {
@@ -27,6 +17,19 @@ class PhanSo(var tu: Int, var mau: Int) : Comparable<PhanSo> {
         // Ep ve Int (gia su khong tran trong pham vi bai tap)
         return PhanSo(num.toInt(), den.toInt()).toiGian()
     }
+
+    // In phan so dang "tu/mau"
+    fun inPS() = println(this.toString())
+
+    // Toi gian (rut gon) phan so, giu mau duong
+    fun toiGian(): PhanSo {
+        if (mau < 0) { tu = -tu; mau = -mau } // doi dau neu mau am
+        val g = gcd(abs(tu), abs(mau)) 
+        if (g != 0) { tu /= g; mau /= g }
+        return this
+    }
+
+
 
     override fun toString(): String = "$tu/$mau"
 
